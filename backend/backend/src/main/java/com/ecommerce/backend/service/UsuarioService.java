@@ -1,16 +1,17 @@
 package com.ecommerce.backend.service;
 
-import com.ecommerce.backend.model.Usuario;
+import com.ecommerce.backend.dto.UsuarioDTO;
+
 import java.util.List;
-import java.util.Optional;
+
 
 
 public interface UsuarioService {
-    Usuario guardar(Usuario usuario);
-    Optional<Usuario> buscarPorCorreo(String correo);
-    List<Usuario> listarTodos();
-    List<Usuario> listarActivos();
-    Optional<Usuario> buscarPorId(Long id);
-    void desactivar(Long id);
+    UsuarioDTO guardar(UsuarioDTO dto);
+    UsuarioDTO buscarPorId(Long id);
+    UsuarioDTO buscarPorCorreo(String correo);
+    List<UsuarioDTO> listarActivos();
+    List<UsuarioDTO> listarTodos();
+    UsuarioDTO desactivar(Long id);
     boolean existeCorreo(String correo);
 }
