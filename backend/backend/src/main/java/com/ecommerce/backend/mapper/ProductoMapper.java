@@ -2,10 +2,12 @@ package com.ecommerce.backend.mapper;
 
 import com.ecommerce.backend.dto.ProductoDTO;
 import com.ecommerce.backend.model.Producto;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class ProductoMapper {
     public ProductoDTO toDTO(Producto producto) {
         return ProductoDTO.builder()
