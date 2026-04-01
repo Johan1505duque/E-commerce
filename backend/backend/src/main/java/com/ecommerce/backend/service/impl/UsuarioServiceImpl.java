@@ -48,4 +48,9 @@ public class UsuarioServiceImpl implements UsuarioService {
             usuarioRepository.save(usuario);
         });
     }
+
+    @Override
+    public boolean existeCorreo(String correo) {
+        return usuarioRepository.existsByCorreoElectronico(correo);
+    }
 }

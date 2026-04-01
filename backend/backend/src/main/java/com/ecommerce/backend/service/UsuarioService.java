@@ -12,4 +12,5 @@ public interface UsuarioService {
     List<Usuario> listarActivos();
     Optional<Usuario> buscarPorId(Long id);
     void desactivar(Long id);
+    boolean existeCorreo(String correo);
 }
