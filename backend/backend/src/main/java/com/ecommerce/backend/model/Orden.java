@@ -1,13 +1,14 @@
 package com.ecommerce.backend.model;
 
-import com.ecommerce.backend.model.Enum.Rol;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Builder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -15,31 +16,29 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "usuarios")
-public class Usuario {
+@Table(name = "ordenes")
+public class Orden {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nombre", nullable = false, length = 100)
-    private String nombre;
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private Usuario usuario;
 
-    @Column(name = "apellido", nullable = false, length = 100)
-    private String apellido;
+    @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL)
+    private List<OrdenProducto> productos = new ArrayList<>();
 
-    @Column(name = "correo_electronico", nullable = false, unique = true, length = 150)
-    private String correoElectronico;
+    @Column(name = "total", nullable = false, precision = 10, scale = 2)
+    private BigDecimal total;
 
-    @Column(name = "password", nullable = false, length = 255)
-    private String password;
+    @Column(name = "envio", nullable = false, precision = 10, scale = 2)
+    private BigDecimal envio = BigDecimal.ZERO;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "rol", nullable = false, length = 20)
-    private Rol rol;
-
-    @Column(name = "activo", nullable = false)
-    private Boolean activo = true;
+    @Column(name = "estado", nullable = false, length = 20)
+    private EstadoOrden estado = EstadoOrden.PENDIENTE;
 
     @CreationTimestamp
     @Column(name = "creacion", nullable = false, updatable = false)

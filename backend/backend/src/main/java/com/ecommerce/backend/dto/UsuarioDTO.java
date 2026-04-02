@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import com.ecommerce.backend.model.Rol;
+import com.ecommerce.backend.model.Enum.Rol;
 
 import java.time.LocalDateTime;
 
