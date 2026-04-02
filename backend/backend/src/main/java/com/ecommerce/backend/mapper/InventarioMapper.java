@@ -20,11 +20,11 @@ public class InventarioMapper {
             .ubicacionBodega(inventario.getUbicacionBodega())
             .actualizacion(inventario.getActualizacion())
             .build();
-}
+    }
 
-public List<InventarioDTO> toDTOList(List<Inventario> inventarios) {
-    return inventarios.stream()
-            .map(this::toDTO)
-            .collect(Collectors.toList());
-}
+    public List<InventarioDTO> toDTOList(List<Inventario> inventarios) {
+        return inventarios.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
 }
