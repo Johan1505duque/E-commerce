@@ -1,7 +1,7 @@
 package com.ecommerce.backend.service;
 
 import com.ecommerce.backend.dto.ComOrdenDTO.CrearOrdenDTO;
-import com.ecommerce.backend.dto.OrdenDTO;
+import com.ecommerce.backend.dto.ComOrdenDTO.OrdenDTO;
 import com.ecommerce.backend.model.Enum.EstadoOrden;
 
 import java.util.List;

@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.ecommerce.backend.service.OrdenService;
-import com.ecommerce.backend.dto.OrdenDTO;
+import com.ecommerce.backend.dto.ComOrdenDTO.OrdenDTO;
 
 import java.util.List;
 

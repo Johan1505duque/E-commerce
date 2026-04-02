@@ -1,5 +1,6 @@
 package com.ecommerce.backend.model;
 
+import com.ecommerce.backend.model.ComOrdenProducto.OrdenProducto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,5 @@
-package com.ecommerce.backend.dto;
+package com.ecommerce.backend.dto.ComOrdenDTO;
 
-import com.ecommerce.backend.dto.ComOrdenDTO.OrdenProductoDTO;
 import com.ecommerce.backend.model.Enum.EstadoOrden;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

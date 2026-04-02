@@ -1,7 +1,7 @@
 package com.ecommerce.backend.mapper;
 
 import com.ecommerce.backend.dto.ComOrdenDTO.OrdenProductoDTO;
-import com.ecommerce.backend.dto.OrdenDTO;
+import com.ecommerce.backend.dto.ComOrdenDTO.OrdenDTO;
 import com.ecommerce.backend.model.Orden;
 import org.springframework.stereotype.Component;
 

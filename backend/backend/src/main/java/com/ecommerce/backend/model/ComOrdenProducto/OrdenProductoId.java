@@ -1,4 +1,4 @@
-package com.ecommerce.backend.model;
+package com.ecommerce.backend.model.ComOrdenProducto;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;

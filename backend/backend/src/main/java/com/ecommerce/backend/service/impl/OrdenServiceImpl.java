@@ -1,5 +1,6 @@
 package com.ecommerce.backend.service.impl;
 
+import com.ecommerce.backend.model.ComOrdenProducto.OrdenProducto;
 import com.ecommerce.backend.model.Enum.EstadoOrden;
 import com.ecommerce.backend.service.OrdenService;
 import jakarta.transaction.Transactional;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ecommerce.backend.repository.*;
 import com.ecommerce.backend.mapper.OrdenMapper;
-import com.ecommerce.backend.dto.OrdenDTO;
+import com.ecommerce.backend.dto.ComOrdenDTO.OrdenDTO;
 import com.ecommerce.backend.dto.ComOrdenDTO.*;
 import com.ecommerce.backend.model.*;
 import com.ecommerce.backend.exception.*;
