@@ -18,6 +18,7 @@ public class UsuarioMapper {
                 .apellido(usuario.getApellido())
                 .correoElectronico(usuario.getCorreoElectronico())
                 .rol(usuario.getRol())
+                .password(usuario.getPassword())
                 .activo(usuario.getActivo())
                 .creacion(usuario.getCreacion())
                 .build();
@@ -30,6 +31,7 @@ public class UsuarioMapper {
                 .apellido(dto.getApellido())
                 .correoElectronico(dto.getCorreoElectronico())
                 .rol(dto.getRol())
+                .password(dto.getPassword())
                 .activo(dto.getActivo())
                 .build();
     }
