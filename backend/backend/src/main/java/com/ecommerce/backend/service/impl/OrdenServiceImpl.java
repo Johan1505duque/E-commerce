@@ -1,6 +1,7 @@
 package com.ecommerce.backend.service.impl;
 
 import com.ecommerce.backend.model.ComOrdenProducto.OrdenProducto;
+import com.ecommerce.backend.model.ComOrdenProducto.OrdenProductoId;
 import com.ecommerce.backend.model.Enum.EstadoOrden;
 import com.ecommerce.backend.service.OrdenService;
 import jakarta.transaction.Transactional;
@@ -75,6 +76,7 @@ public class OrdenServiceImpl implements OrdenService {
 
             // Crear item de orden
             OrdenProducto op = OrdenProducto.builder()
+                    .id(new OrdenProductoId())
                     .orden(orden)
                     .producto(producto)
                     .cantidad(item.getCantidad())

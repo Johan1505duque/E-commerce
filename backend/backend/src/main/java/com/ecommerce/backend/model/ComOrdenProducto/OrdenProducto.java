@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 public class OrdenProducto {
 
     @EmbeddedId
-    private OrdenProductoId id = new OrdenProductoId();
+    private OrdenProductoId id;
 
     @ManyToOne
     @MapsId("ordenId")
