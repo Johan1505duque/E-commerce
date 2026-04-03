@@ -95,6 +95,7 @@ public class OrdenServiceImpl implements OrdenService {
     }
 
     @Override
+    @Transactional
     public OrdenDTO buscarPorId(Long id) {
         return ordenMapper.toDTO(
                 ordenRepository.findById(id)
@@ -103,12 +104,14 @@ public class OrdenServiceImpl implements OrdenService {
     }
 
     @Override
+    @Transactional
     public List<OrdenDTO> listarPorUsuario(Long usuarioId) {
         return ordenMapper.toDTOList(
                 ordenRepository.findByUsuarioId(usuarioId));
     }
 
     @Override
+    @Transactional
     public List<OrdenDTO> listarPorEstado(EstadoOrden estado) {
         return ordenMapper.toDTOList(
                 ordenRepository.findByEstado(estado));
