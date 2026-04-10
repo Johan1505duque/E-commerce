@@ -9,6 +9,11 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: ecommerce_db_inventory
 
 server:
   port: 8080

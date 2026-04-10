@@ -1,22 +1,15 @@
 package com.ecommerce.backend.repository;
 
 import com.ecommerce.backend.model.Inventario;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface InventarioRepository extends JpaRepository<Inventario, Long> {
-    // Buscar inventario por producto
+public interface InventarioRepository extends MongoRepository<Inventario, String> {
     Optional<Inventario> findByProductoId(Long productoId);
-
-    // Verificar si existe inventario para un producto
     boolean existsByProductoId(Long productoId);
-
-    // Buscar productos con stock bajo
     List<Inventario> findByCantidadLessThan(Integer cantidad);
-
-    // Buscar por ubicación
-    List<Inventario> findByUbicacionBodega(String ubicacion);
 }

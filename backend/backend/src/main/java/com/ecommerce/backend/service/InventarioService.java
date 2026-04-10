@@ -1,7 +1,6 @@
 package com.ecommerce.backend.service;
 
 import com.ecommerce.backend.dto.InventarioDTO;
-
 import java.util.List;
 
 public interface InventarioService {
