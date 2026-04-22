@@ -1,5 +1,9 @@
 package com.ecommerce.backend.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -8,6 +12,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import java.time.LocalDateTime;
 
 @Document(collection = "inventarios")
+@Data
+@Builder
+@AllArgsConstructor
 public class Inventario {
 
     @Id
@@ -21,9 +28,11 @@ public class Inventario {
 
     private String ubicacionBodega;
 
-    private LocalDateTime creacion;
+    @Builder.Default
+    private LocalDateTime creacion = LocalDateTime.now();
 
-    private LocalDateTime actualizacion;
+    @Builder.Default
+    private LocalDateTime actualizacion = LocalDateTime.now();
 
     public Inventario() {
         this.creacion = LocalDateTime.now();
@@ -35,65 +44,5 @@ public class Inventario {
         this.productoId = productoId;
         this.cantidad = cantidad;
         this.ubicacionBodega = ubicacionBodega;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Long getProductoId() {
-        return productoId;
-    }
-
-    public void setProductoId(Long productoId) {
-        this.productoId = productoId;
-    }
-
-    public Integer getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public String getUbicacionBodega() {
-        return ubicacionBodega;
-    }
-
-    public void setUbicacionBodega(String ubicacionBodega) {
-        this.ubicacionBodega = ubicacionBodega;
-    }
-
-    public LocalDateTime getCreacion() {
-        return creacion;
-    }
-
-    public void setCreacion(LocalDateTime creacion) {
-        this.creacion = creacion;
-    }
-
-    public LocalDateTime getActualizacion() {
-        return actualizacion;
-    }
-
-    public void setActualizacion(LocalDateTime actualizacion) {
-        this.actualizacion = actualizacion;
-    }
-
-    @Override
-    public String toString() {
-        return "Inventario{" +
-               "id='" + id + '\'' +
-               ", productoId=" + productoId +
-               ", cantidad=" + cantidad +
-               ", ubicacionBodega='" + ubicacionBodega + '\'' +
-               ", creacion=" + creacion +
-               ", actualizacion=" + actualizacion +
-               '}';
     }
 }

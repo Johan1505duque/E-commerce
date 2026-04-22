@@ -1,10 +1,10 @@
 import './App.css'
-import UserManagement from './components/users/UserManagement'
+import ProductManagement from './components/ProductManagement'
 
 function App() {
   return (
     <div className="app-container">
-      <UserManagement />
+      <ProductManagement />
     </div>
   )
 }

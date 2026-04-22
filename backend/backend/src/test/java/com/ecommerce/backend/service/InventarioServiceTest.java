@@ -2,9 +2,9 @@ package com.ecommerce.backend.service;
 
 import com.ecommerce.backend.dto.InventarioDTO;
 import com.ecommerce.backend.exception.BadRequestException;
+import com.ecommerce.backend.exception.ResourceNotFoundException;
 import com.ecommerce.backend.mapper.InventarioMapper;
 import com.ecommerce.backend.model.Inventario;
-import com.ecommerce.backend.model.Producto;
 import com.ecommerce.backend.repository.InventarioRepository;
 import com.ecommerce.backend.repository.ProductoRepository;
 import com.ecommerce.backend.service.impl.InventarioServiceImpl;
@@ -37,29 +37,22 @@ class InventarioServiceTest {
     @InjectMocks
     private InventarioServiceImpl inventarioService;
 
-    private Producto producto;
     private Inventario inventario;
     private InventarioDTO inventarioDTO;
 
     @BeforeEach
     void setUp() {
-        producto = Producto.builder()
-                .id(1L)
-                .nombre("Camiseta Nike")
-                .activo(true)
-                .build();
-
+        // En MongoDB el id es String
         inventario = Inventario.builder()
-                .id(1L)
-                .producto(producto)
+                .id("mongo-id-123")
+                .productoId(1L)
                 .cantidad(10)
                 .ubicacionBodega("Bodega A")
                 .build();
 
         inventarioDTO = InventarioDTO.builder()
-                .id(1L)
+                .id("mongo-id-123")
                 .productoId(1L)
-                .productoNombre("Camiseta Nike")
                 .cantidad(10)
                 .ubicacionBodega("Bodega A")
                 .build();
@@ -68,8 +61,9 @@ class InventarioServiceTest {
     @Test
     @DisplayName("Debe crear inventario correctamente")
     void debeCrearInventario() {
-        when(productoRepository.findById(1L))
-                .thenReturn(Optional.of(producto));
+        // En el nuevo ServiceImpl usamos existsById del productoRepository
+        when(productoRepository.existsById(1L))
+                .thenReturn(true);
         when(inventarioRepository.existsByProductoId(1L))
                 .thenReturn(false);
         when(inventarioRepository.save(any()))
@@ -82,13 +76,14 @@ class InventarioServiceTest {
 
         assertNotNull(resultado);
         assertEquals(10, resultado.getCantidad());
+        assertEquals("mongo-id-123", resultado.getId());
     }
 
     @Test
     @DisplayName("No debe crear inventario duplicado")
     void noDebeCrearInventarioDuplicado() {
-        when(productoRepository.findById(1L))
-                .thenReturn(Optional.of(producto));
+        when(productoRepository.existsById(1L))
+                .thenReturn(true);
         when(inventarioRepository.existsByProductoId(1L))
                 .thenReturn(true);
 
