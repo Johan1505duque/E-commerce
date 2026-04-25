@@ -1,4 +1,4 @@
-package com.ecommerce.backend.controller;
+package com.ecommerce.backend.controller.rest;
 
 import com.ecommerce.backend.dto.ApiResponse;
 import com.ecommerce.backend.dto.ProductoDTO;

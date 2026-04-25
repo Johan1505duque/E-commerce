@@ -1,4 +1,4 @@
-package com.ecommerce.backend.controller;
+package com.ecommerce.backend.controller.rest;
 
 import com.ecommerce.backend.dto.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.*;
 
 import com.ecommerce.backend.service.UsuarioService;
 import com.ecommerce.backend.dto.UsuarioDTO;
-import com.ecommerce.backend.exception.*;
 
 import java.util.List;
 

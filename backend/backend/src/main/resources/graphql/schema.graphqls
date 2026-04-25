@@ -1,0 +1,55 @@
+# Definición del esquema GraphQL para el E-commerce (Inventario y Carrito)
+
+type Query {
+    # --- Consultas de Carrito ---
+    obtenerCarrito(usuarioId: ID!): Carrito
+
+    # --- Consultas de Inventario ---
+    # Obtiene todo el inventario
+    listarTodoInventario: [Inventario]
+    # Busca inventario de un producto específico
+    buscarInventarioPorProducto(productoId: ID!): Inventario
+    # Lista productos con stock bajo
+    listarStockBajo(minimo: Int): [Inventario]
+}
+
+type Mutation {
+    # --- Mutaciones de Carrito ---
+    agregarOActualizarProducto(usuarioId: ID!, productoId: ID!, cantidad: Int!): Carrito
+    eliminarProducto(usuarioId: ID!, productoId: ID!): Carrito
+    limpiarCarrito(usuarioId: ID!): Carrito
+    eliminarCarrito(usuarioId: ID!): Boolean
+
+    # --- Mutaciones de Inventario ---
+    # Crea un nuevo registro de inventario
+    guardarInventario(productoId: ID!, cantidad: Int!, ubicacion: String): Inventario
+    # Actualiza la cantidad de un producto en el inventario
+    actualizarCantidadInventario(productoId: ID!, cantidad: Int!): Inventario
+}
+
+# --- Tipos para el Carrito ---
+type Carrito {
+    id: ID!
+    usuarioId: ID!
+    items: [CarritoItem]
+    total: Float
+    creacion: String
+    actualizacion: String
+}
+
+type CarritoItem {
+    productoId: ID!
+    nombreProducto: String
+    cantidad: Int
+    precioUnitario: Float
+}
+
+# --- Tipos para el Inventario ---
+type Inventario {
+    id: ID!
+    productoId: ID!
+    cantidad: Int
+    ubicacionBodega: String
+    creacion: String
+    actualizacion: String
+}
