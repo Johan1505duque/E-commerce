@@ -25,20 +25,19 @@ const ProductManagement = () => {
     nombre: '',
     descripcion: '',
     precio: '',
-    imagenUrl: ''
+    imagenUrl: '',
+    activo: true
   });
 
   // 1. Cargar productos al montar el componente
   useEffect(() => {
     fetchProducts();
   }, []);
+  
 
   const fetchProducts = async () => {
     try {
       const response = await axios.get(API_URL);
-      // Accediendo a la estructura response.data.data
-      setProducts(response.data.data);
-      // Se valida que la respuesta contenga la estructura response.data.data
       if (response.data && response.data.data) {
         setProducts(response.data.data);
       }
@@ -56,8 +55,27 @@ const ProductManagement = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(API_URL, formData);
-      setFormData({ nombre: '', descripcion: '', precio: '', imagenUrl: '' });
+      // Construimos el cuerpo de la petición exactamente como lo requiere el API,
+      // asegurando que 'creacion' sea la fecha actual en formato ISO.
+      const productPayload = {
+        nombre: formData.nombre,
+        descripcion: formData.descripcion,
+        precio: Number(formData.precio),
+        imagenUrl: formData.imagenUrl,
+        activo: formData.activo,
+        creacion: new Date().toISOString()
+      };
+
+      await axios.post(API_URL, productPayload);
+      
+      // Resetear el formulario al estado inicial
+      setFormData({ 
+        nombre: '', 
+        descripcion: '', 
+        precio: '', 
+        imagenUrl: '',
+        activo: true
+      });
       fetchProducts(); // Recargar lista
     } catch (error) {
       console.error("Error al crear producto:", error);
@@ -96,10 +114,30 @@ const ProductManagement = () => {
               <TextField fullWidth label="Precio" name="precio" type="number" value={formData.precio} onChange={handleInputChange} required />
             </Grid>
             <Grid item xs={12}>
-              <TextField fullWidth label="URL de la Imagen" name="imagenUrl" value={formData.imagenUrl} onChange={handleInputChange} required />
+              <TextField 
+                fullWidth 
+                label="URL de la Imagen" 
+                name="imagenUrl" 
+                value={formData.imagenUrl} 
+                onChange={handleInputChange} 
+                required 
+                inputProps={{ maxLength: 2500 }}
+                helperText={`${formData.imagenUrl.length}/2500 caracteres`}
+              />
             </Grid>
             <Grid item xs={12}>
-              <TextField fullWidth label="Descripción" name="descripcion" value={formData.descripcion} onChange={handleInputChange} multiline rows={2} required />
+              <TextField 
+                fullWidth 
+                label="Descripción" 
+                name="descripcion" 
+                value={formData.descripcion} 
+                onChange={handleInputChange} 
+                multiline 
+                rows={2} 
+                required 
+                inputProps={{ maxLength: 500 }}
+                helperText={`${formData.descripcion.length}/500 caracteres`}
+              />
             </Grid>
             <Grid item xs={12}>
               <Button variant="contained" color="primary" type="submit" size="large" fullWidth>

@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS productos (
     nombre          VARCHAR(150)    NOT NULL,
     descripcion     VARCHAR(500),
     precio          DECIMAL(10,2)   NOT NULL,
-    imagen_url      VARCHAR(500),
+    imagen_url      VARCHAR(2500),
     activo          BOOLEAN         NOT NULL DEFAULT TRUE,
     creacion        TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     actualizacion   TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP
