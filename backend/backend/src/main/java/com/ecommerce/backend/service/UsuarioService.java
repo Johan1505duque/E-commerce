@@ -4,8 +4,6 @@ import com.ecommerce.backend.dto.UsuarioDTO;
 
 import java.util.List;
 
-
-
 public interface UsuarioService {
     UsuarioDTO guardar(UsuarioDTO dto);
     UsuarioDTO buscarPorId(Long id);
@@ -13,5 +11,6 @@ public interface UsuarioService {
     List<UsuarioDTO> listarActivos();
     List<UsuarioDTO> listarTodos();
     UsuarioDTO desactivar(Long id);
+    UsuarioDTO actualizar(Long id, UsuarioDTO dto);
     boolean existeCorreo(String correo);
 }

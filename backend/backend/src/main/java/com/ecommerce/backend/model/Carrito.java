@@ -25,6 +25,7 @@ public class Carrito {
     @Indexed(unique = true) // Un carrito por usuario
     private Long usuarioId;
 
+    @Builder.Default
     private List<CarritoItem> items = new ArrayList<>();
 
     private BigDecimal total;
@@ -37,8 +38,16 @@ public class Carrito {
 
     // Método para calcular el total del carrito
     public void calcularTotal() {
+        if (this.items == null) {
+            this.items = new ArrayList<>();
+        }
         this.total = items.stream()
-                .map(item -> item.getPrecioUnitario().multiply(BigDecimal.valueOf(item.getCantidad())))
+                .map(item -> {
+                    if (item.getPrecioUnitario() == null || item.getCantidad() == null) {
+                        return BigDecimal.ZERO;
+                    }
+                    return item.getPrecioUnitario().multiply(BigDecimal.valueOf(item.getCantidad()));
+                })
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

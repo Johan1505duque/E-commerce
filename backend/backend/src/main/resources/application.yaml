@@ -14,8 +14,18 @@ spring:
       host: localhost
       port: 27017
       database: ecommerce_db_inventory
+  graphql:
+    graphiql:
+      enabled: true
+      path: /graphiql
+    schema:
+      printer:
+        enabled: true
 
-server:
-  port: 8080
-  servlet:
-    context-path: /api
+# Configuración de SpringDoc para integrar GraphQL en Swagger
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+  show-actuator: true

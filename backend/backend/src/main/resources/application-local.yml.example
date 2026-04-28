@@ -1,3 +1,16 @@
+# Ejemplo de configuración local (Copia este archivo a application-local.yml)
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+app:
+  swagger:
+    contact-name: "Tu Nombre"
+    contact-email: "tu-correo@ejemplo.com"
+    base-url: "http://localhost:8080/api"
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/NOMBRE_BD
@@ -7,6 +20,15 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
+# Configuración de Seguridad JWT
+# Nota: La clave secreta debe ser una cadena Base64 de al menos 256 bits (32 bytes).
+# Puedes generar una con: echo "tu_clave_secreta_larga_y_segura" | base64
+jwt:
+  secret:
+    key: "ZGFtZSB1bmEgY2xhdmUgbGFyZ2EgeSBzZWd1cmEgcGFyYSBmaXJtYXIgbG9zIHRva2VucyBkZSBqd3Q=" # ¡CAMBIA ESTO POR UNA CLAVE SEGURA!
+  expiration:
+    time: 86400000 # 24 horas en milisegundos
 
 openai:
   api:

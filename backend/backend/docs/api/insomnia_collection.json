@@ -1,0 +1,141 @@
+{
+	"_type": "export",
+	"__export_format": 4,
+	"__export_date": "2024-05-20T00:00:00.000Z",
+	"__export_source": "insomnia.desktop.app:v2023.5.8",
+	"resources": [
+		{
+			"_id": "wrk_ecommerce",
+			"parentId": null,
+			"modified": 1716160000000,
+			"created": 1716160000000,
+			"name": "E-Commerce Project",
+			"description": "Colección completa para REST, GraphQL e IA",
+			"scope": "collection",
+			"_type": "workspace"
+		},
+		{
+			"_id": "env_local",
+			"parentId": "wrk_ecommerce",
+			"modified": 1716160000000,
+			"created": 1716160000000,
+			"name": "Local Environment",
+			"data": {
+				"base_url": "http://localhost:8080/api"
+			},
+			"color": null,
+			"isPrivate": false,
+			"metaSortKey": 1716160000000,
+			"_type": "environment"
+		},
+		{
+			"_id": "fld_auth",
+			"parentId": "wrk_ecommerce",
+			"modified": 1716160000000,
+			"created": 1716160000000,
+			"name": "0. Autenticación (JWT)",
+			"description": "Login y Registro",
+			"environment": {},
+			"environmentPropertyOrder": null,
+			"metaSortKey": -1716170000000,
+			"_type": "request_group"
+		},
+		{
+			"_id": "req_post_register",
+			"parentId": "fld_auth",
+			"modified": 1716160000000,
+			"created": 1716160000000,
+			"url": "{{ _.base_url }}/auth/register",
+			"name": "Registro de Usuario",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n  \"nombre\": \"Jhoan\",\n  \"apellido\": \"Duque\",\n  \"correoElectronico\": \"jhoan.duque@test.com\",\n  \"password\": \"password123\",\n  \"rol\": \"ADMIN\"\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1716170000000,
+			"isPrivate": false,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_post_login",
+			"parentId": "fld_auth",
+			"modified": 1716160000000,
+			"created": 1716160000000,
+			"url": "{{ _.base_url }}/auth/login",
+			"name": "Login",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n  \"email\": \"jhoan.duque@test.com\",\n  \"password\": \"password123\"\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1716160000000,
+			"isPrivate": false,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "fld_rest",
+			"parentId": "wrk_ecommerce",
+			"modified": 1716160000000,
+			"created": 1716160000000,
+			"name": "1. REST - PostgreSQL",
+			"description": "Endpoints relacionales",
+			"environment": {},
+			"environmentPropertyOrder": null,
+			"metaSortKey": -1716160000000,
+			"_type": "request_group"
+		},
+		{
+			"_id": "req_get_productos",
+			"parentId": "fld_rest",
+			"modified": 1716160000000,
+			"created": 1716160000000,
+			"url": "{{ _.base_url }}/productos",
+			"name": "Listar Productos",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {
+				"type": "bearer",
+				"token": "{% response 'body', 'req_post_login', 'b64::JC5kYXRhLnRva2Vu::46b', 'never', 60 %}"
+			},
+			"metaSortKey": -1716160000000,
+			"isPrivate": false,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		}
+	]
+}

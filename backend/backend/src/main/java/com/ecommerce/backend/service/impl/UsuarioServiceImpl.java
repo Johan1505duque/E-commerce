@@ -7,18 +7,19 @@ import com.ecommerce.backend.mapper.UsuarioMapper;
 import com.ecommerce.backend.repository.UsuarioRepository;
 import com.ecommerce.backend.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.ecommerce.backend.model.Usuario;
 
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UsuarioServiceImpl implements UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UsuarioDTO guardar(UsuarioDTO dto) {
@@ -27,6 +28,10 @@ public class UsuarioServiceImpl implements UsuarioService {
                     "El correo " + dto.getCorreoElectronico() + " ya está registrado");
         }
         Usuario usuario = usuarioMapper.toEntity(dto);
+        
+        // Codificar la contraseña antes de guardar
+        usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
+        
         usuario.setActivo(true);
         Usuario guardado = usuarioRepository.save(usuario);
         return usuarioMapper.toDTO(guardado);
@@ -66,6 +71,35 @@ public class UsuarioServiceImpl implements UsuarioService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Usuario no encontrado con id: " + id));
         usuario.setActivo(false);
+        return usuarioMapper.toDTO(usuarioRepository.save(usuario));
+    }
+
+    @Override
+    public UsuarioDTO actualizar(Long id, UsuarioDTO dto) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Usuario no encontrado con id: " + id));
+        
+        // Actualizar campos
+        usuario.setNombre(dto.getNombre());
+        usuario.setApellido(dto.getApellido());
+        
+        // Verificar si se cambia el correo y si el nuevo ya existe
+        if (!usuario.getCorreoElectronico().equals(dto.getCorreoElectronico()) &&
+            usuarioRepository.existsByCorreoElectronico(dto.getCorreoElectronico())) {
+            throw new BadRequestException("El correo " + dto.getCorreoElectronico() + " ya está registrado por otro usuario");
+        }
+        usuario.setCorreoElectronico(dto.getCorreoElectronico());
+        
+        // Codificar nueva contraseña si se proporciona
+        if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
+            usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
+        
+        if (dto.getRol() != null) {
+            usuario.setRol(dto.getRol());
+        }
+
         return usuarioMapper.toDTO(usuarioRepository.save(usuario));
     }
 
