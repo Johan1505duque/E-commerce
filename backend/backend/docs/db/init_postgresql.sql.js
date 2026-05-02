@@ -1,8 +1,8 @@
 // =============================================
 // E-COMMERCE DATABASE SCHEMA (PostgreSQL)
 // Autor: Jhoan Duque
-// NOTA: La gestión de inventario ha sido migrada a MongoDB.
-// Ver archivo: init_mongo.js para la configuración de inventario.
+-- NOTA: La gestión de inventario y carrito de compras ha sido migrada a MongoDB.
+-- Ver archivo: init_mongo.js para la configuración de inventario y carrito.
 // =============================================
 
 /*
@@ -86,4 +86,20 @@ CREATE TABLE IF NOT EXISTS pasarela_pago (
         FOREIGN KEY (id_orden) REFERENCES ordenes(id) ON DELETE NO ACTION
 );
 CREATE INDEX IF NOT EXISTS idx_pago_estado ON pasarela_pago(estado);
+
+-- ENVIOS
+CREATE TABLE IF NOT EXISTS envios (
+    id                  BIGSERIAL       PRIMARY KEY,
+    id_orden            BIGINT          NOT NULL UNIQUE,
+    direccion_envio     VARCHAR(255)    NOT NULL,
+    estado              VARCHAR(20)     NOT NULL DEFAULT 'PENDIENTE',
+    codigo_rastreo      VARCHAR(255)    UNIQUE,
+    creacion            TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    actualizacion       TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_envios_orden
+        FOREIGN KEY (id_orden) REFERENCES ordenes(id)
+        ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS idx_envios_orden ON envios(id_orden);
+CREATE INDEX IF NOT EXISTS idx_envios_codigo_rastreo ON envios(codigo_rastreo);
 */

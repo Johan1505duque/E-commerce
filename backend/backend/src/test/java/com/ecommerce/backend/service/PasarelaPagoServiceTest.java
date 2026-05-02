@@ -70,7 +70,12 @@ class PasarelaPagoServiceTest {
                 .estado(EstadoPago.PENDIENTE)
                 .build();
 
-        crearPagoDTO = new CrearPagoDTO(1L, MedioPago.PSE);
+        // Corregido: Usar el builder y proporcionar el monto
+        crearPagoDTO = CrearPagoDTO.builder()
+                .ordenId(1L)
+                .monto(new BigDecimal("90000")) // Añadir el monto
+                .medioPago(MedioPago.PSE)
+                .build();
     }
 
     @Test

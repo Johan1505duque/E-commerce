@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuración de Swagger/OpenAPI para la documentación de la API.
+ * Permite la visualización interactiva de los endpoints REST y GraphQL.
+ */
 @Configuration
 public class SwaggerConfig {
 
@@ -21,6 +25,11 @@ public class SwaggerConfig {
     @Value("${app.swagger.base-url:http://localhost:8080/api}")
     private String baseUrl;
 
+    /**
+     * Configura la información general de la API para Swagger UI.
+     *
+     * @return Objeto OpenAPI con metadatos de la API.
+     */
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
@@ -36,16 +45,27 @@ public class SwaggerConfig {
                                 .email(contactEmail)));
     }
 
+    /**
+     * Define un grupo de APIs para los controladores REST.
+     * Incluye controladores en 'com.ecommerce.backend.controller.rest' y 'com.ecommerce.backend.controller'.
+     *
+     * @return Objeto GroupedOpenApi para las APIs REST.
+     */
     @Bean
     public GroupedOpenApi restApi() {
         return GroupedOpenApi.builder()
                 .group("1-REST-API")
-                // Cambiamos esto para que escanee TODOS los controladores bajo el paquete 'rest' e 'IA'
                 .packagesToScan("com.ecommerce.backend.controller.rest", "com.ecommerce.backend.controller")
-                .pathsToExclude("/graphql/**")
+                .pathsToExclude("/graphql/**") // Excluye rutas GraphQL de este grupo
                 .build();
     }
 
+    /**
+     * Define un grupo de APIs para los endpoints GraphQL.
+     * Muestra el endpoint /graphql.
+     *
+     * @return Objeto GroupedOpenApi para las APIs GraphQL.
+     */
     @Bean
     public GroupedOpenApi graphqlApi() {
         return GroupedOpenApi.builder()

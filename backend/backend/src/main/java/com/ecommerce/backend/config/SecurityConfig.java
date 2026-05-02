@@ -16,42 +16,65 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * Configuración principal de seguridad para la aplicación Spring Boot.
+ * Habilita la seguridad web, la seguridad a nivel de método y configura la autenticación JWT.
+ */
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity // Habilita la seguridad a nivel de método con @PreAuthorize, @PostAuthorize, etc.
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    /**
+     * Define la cadena de filtros de seguridad HTTP.
+     * Configura CSRF, gestión de sesiones, reglas de autorización y añade el filtro JWT.
+     *
+     * @param http Objeto HttpSecurity para configurar la seguridad.
+     * @return La cadena de filtros de seguridad configurada.
+     * @throws Exception Si ocurre un error durante la configuración.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(AbstractHttpConfigurer::disable) // Deshabilita CSRF para APIs REST (ya que JWT lo maneja)
+            .csrf(AbstractHttpConfigurer::disable) // Deshabilita CSRF para APIs REST (JWT maneja la seguridad)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // No usa sesiones HTTP
             .authorizeHttpRequests(authorize -> authorize
                 // Rutas públicas (sin autenticación)
-                .requestMatchers("/auth/**").permitAll() // Endpoints de autenticación
-                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/graphiql/**", "/graphql/**").permitAll() // Swagger, GraphiQL y GraphQL
-                .requestMatchers("/h2-console/**").permitAll() // Consola H2 (solo para desarrollo)
-                // Otras rutas que requieran autenticación
+                .requestMatchers("/auth/**").permitAll() // Endpoints de autenticación (login, registro)
+                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/graphiql/**", "/graphql/**").permitAll() // Documentación y herramientas GraphQL
+                .requestMatchers("/h2-console/**").permitAll() // Consola H2 (solo para desarrollo, considerar proteger en producción)
+                // Todas las demás rutas requieren autenticación
                 .anyRequest().authenticated()
             );
 
-        // Añade el filtro JWT antes del filtro de autenticación de usuario y contraseña
+        // Añade el filtro JWT antes del filtro de autenticación de usuario y contraseña estándar de Spring Security
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
-        // Configuración para H2 Console (solo si usas H2 y quieres acceder a su UI)
-        // http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()));
 
         return http.build();
     }
 
+    /**
+     * Proporciona un bean para el codificador de contraseñas.
+     * Se utiliza BCryptPasswordEncoder para almacenar contraseñas de forma segura.
+     *
+     * @return Una instancia de PasswordEncoder.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Expone el AuthenticationManager como un bean.
+     * Necesario para el proceso de autenticación en el controlador de login.
+     *
+     * @param authenticationConfiguration Configuración de autenticación.
+     * @return Una instancia de AuthenticationManager.
+     * @throws Exception Si ocurre un error al obtener el AuthenticationManager.
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();

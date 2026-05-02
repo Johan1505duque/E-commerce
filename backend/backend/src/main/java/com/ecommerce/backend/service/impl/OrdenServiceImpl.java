@@ -3,7 +3,9 @@ package com.ecommerce.backend.service.impl;
 import com.ecommerce.backend.model.ComOrdenProducto.OrdenProducto;
 import com.ecommerce.backend.model.ComOrdenProducto.OrdenProductoId;
 import com.ecommerce.backend.model.Enum.EstadoOrden;
+import com.ecommerce.backend.service.EnvioService; // Importar EnvioService
 import com.ecommerce.backend.service.OrdenService;
+import com.ecommerce.backend.service.NotificacionService; // Importar NotificacionService
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import com.ecommerce.backend.dto.ComOrdenDTO.OrdenDTO;
 import com.ecommerce.backend.dto.ComOrdenDTO.*;
 import com.ecommerce.backend.model.*;
 import com.ecommerce.backend.exception.*;
+import com.ecommerce.backend.dto.CrearEnvioDTO; // Importar CrearEnvioDTO
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -28,6 +31,8 @@ public class OrdenServiceImpl implements OrdenService {
     private final ProductoRepository productoRepository;
     private final InventarioRepository inventarioRepository;
     private final OrdenMapper ordenMapper;
+    private final EnvioService envioService; // Inyectar EnvioService
+    private final NotificacionService notificacionService; // Inyectar NotificacionService
 
     @Override
     @Transactional
@@ -91,7 +96,18 @@ public class OrdenServiceImpl implements OrdenService {
 
         orden.setProductos(items);
         orden.setTotal(total.add(orden.getEnvio()));
-        return ordenMapper.toDTO(ordenRepository.save(orden));
+        Orden savedOrden = ordenRepository.save(orden); // Guardar la orden primero para obtener su ID
+
+        // 4. Crear el envío asociado a la orden
+        CrearEnvioDTO crearEnvioDTO = CrearEnvioDTO.builder()
+                .ordenId(savedOrden.getId())
+                .direccionEnvio(dto.getDireccionEnvio()) // Asumimos que la dirección de envío viene en CrearOrdenDTO
+                .build();
+        envioService.crearEnvio(crearEnvioDTO); // Crear el envío
+
+        notificacionService.notificarCreacionOrden(savedOrden); // Notificar al cliente sobre la orden creada
+
+        return ordenMapper.toDTO(savedOrden);
     }
 
     @Override
