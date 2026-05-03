@@ -29,3 +29,14 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
   show-actuator: true
+
+# Configuración de Actuator para exponer métricas
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,prometheus" # Expone los endpoints health, info y prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true # Habilita la exportación de métricas a Prometheus

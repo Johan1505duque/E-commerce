@@ -46,6 +46,7 @@ public class SecurityConfig {
                 .requestMatchers("/auth/**").permitAll() // Endpoints de autenticación (login, registro)
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/graphiql/**", "/graphql/**").permitAll() // Documentación y herramientas GraphQL
                 .requestMatchers("/h2-console/**").permitAll() // Consola H2 (solo para desarrollo, considerar proteger en producción)
+                .requestMatchers("/actuator/**").permitAll() // Permitir acceso a todos los endpoints de Actuator (para monitoreo)
                 // Todas las demás rutas requieren autenticación
                 .anyRequest().authenticated()
             );
