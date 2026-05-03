@@ -136,6 +136,195 @@
 			"settingRebuildPath": true,
 			"settingFollowRedirects": "global",
 			"_type": "request"
+		},
+		{
+			"_id": "req_get_usuarios",
+			"parentId": "fld_rest",
+			"modified": 1716160000000,
+			"created": 1716160000000,
+			"url": "{{ _.base_url }}/usuarios",
+			"name": "Listar Usuarios",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {
+				"type": "bearer",
+				"token": "{% response 'body', 'req_post_login', 'b64::JC5kYXRhLnRva2Vu::46b', 'never', 60 %}"
+			},
+			"metaSortKey": -1716150000000,
+			"isPrivate": false,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_get_ordenes",
+			"parentId": "fld_rest",
+			"modified": 1716160000000,
+			"created": 1716160000000,
+			"url": "{{ _.base_url }}/ordenes",
+			"name": "Listar Órdenes",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {
+				"type": "bearer",
+				"token": "{% response 'body', 'req_post_login', 'b64::JC5kYXRhLnRva2Vu::46b', 'never', 60 %}"
+			},
+			"metaSortKey": -1716140000000,
+			"_type": "request"
+		},
+		{
+			"_id": "req_get_pagos",
+			"parentId": "fld_rest",
+			"modified": 1716160000000,
+			"created": 1716160000000,
+			"url": "{{ _.base_url }}/pagos",
+			"name": "Listar Pagos",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {
+				"type": "bearer",
+				"token": "{% response 'body', 'req_post_login', 'b64::JC5kYXRhLnRva2Vu::46b', 'never', 60 %}"
+			},
+			"metaSortKey": -1716130000000,
+			"_type": "request"
+		},
+		{
+			"_id": "req_get_envios",
+			"parentId": "fld_rest",
+			"modified": 1716160000000,
+			"created": 1716160000000,
+			"url": "{{ _.base_url }}/envios",
+			"name": "Listar Envíos",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {
+				"type": "bearer",
+				"token": "{% response 'body', 'req_post_login', 'b64::JC5kYXRhLnRva2Vu::46b', 'never', 60 %}"
+			},
+			"metaSortKey": -1716120000000,
+			"_type": "request"
+		},
+		{
+			"_id": "fld_graphql",
+			"parentId": "wrk_ecommerce",
+			"modified": 1716160000000,
+			"created": 1716160000000,
+			"name": "2. GraphQL - MongoDB",
+			"description": "Inventario y Carrito",
+			"environment": {},
+			"environmentPropertyOrder": null,
+			"metaSortKey": -1716150000000,
+			"_type": "request_group"
+		},
+		{
+			"_id": "req_query_inventario",
+			"parentId": "fld_graphql",
+			"modified": 1716160000000,
+			"created": 1716160000000,
+			"url": "{{ _.base_url }}/graphql",
+			"name": "Inventario - Listar Todo",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/graphql",
+				"text": "query {\n  listarTodoInventario {\n    productoId\n    cantidad\n    ubicacionBodega\n  }\n}"
+			},
+			"parameters": [],
+			"headers": [],
+			"authentication": {
+				"type": "bearer",
+				"token": "{% response 'body', 'req_post_login', 'b64::JC5kYXRhLnRva2Vu::46b', 'never', 60 %}"
+			},
+			"metaSortKey": -1716160000000,
+			"isPrivate": false,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_query_carrito",
+			"parentId": "fld_graphql",
+			"modified": 1716160000000,
+			"created": 1716160000000,
+			"url": "{{ _.base_url }}/graphql",
+			"name": "Carrito - Obtener por Usuario",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/graphql",
+				"text": "query {\n  obtenerCarrito(usuarioId: 1) {\n    id\n    usuarioId\n    total\n    items {\n      nombreProducto\n      cantidad\n    }\n  }\n}"
+			},
+			"parameters": [],
+			"headers": [],
+			"authentication": {
+				"type": "bearer",
+				"token": "{% response 'body', 'req_post_login', 'b64::JC5kYXRhLnRva2Vu::46b', 'never', 60 %}"
+			},
+			"metaSortKey": -1716150000000,
+			"isPrivate": false,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "fld_ai",
+			"parentId": "wrk_ecommerce",
+			"modified": 1716160000000,
+			"created": 1716160000000,
+			"name": "3. Inteligencia Artificial",
+			"description": "OpenAI Integration",
+			"environment": {},
+			"environmentPropertyOrder": null,
+			"metaSortKey": -1716140000000,
+			"_type": "request_group"
+		},
+		{
+			"_id": "req_ai_chat",
+			"parentId": "fld_ai",
+			"modified": 1716160000000,
+			"created": 1716160000000,
+			"url": "{{ _.base_url }}/ai/chat",
+			"name": "Chat con IA",
+			"method": "GET",
+			"body": {},
+			"parameters": [
+				{
+					"name": "message",
+					"value": "Hola, ¿qué productos me recomiendas?"
+				}
+			],
+			"headers": [],
+			"authentication": {
+				"type": "bearer",
+				"token": "{% response 'body', 'req_post_login', 'b64::JC5kYXRhLnRva2Vu::46b', 'never', 60 %}"
+			},
+			"metaSortKey": -1716160000000,
+			"isPrivate": false,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
 		}
 	]
 }

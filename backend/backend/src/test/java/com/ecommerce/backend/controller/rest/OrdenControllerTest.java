@@ -56,7 +56,7 @@ class OrdenControllerTest {
 
         ordenDTOList = Arrays.asList(
                 ordenDTO,
-                OrdenDTO.builder().id(2L).usuarioId(101L).total(BigDecimal.valueOf(200.00)).estado(EstadoOrden.EN_PROCESO).build()
+                OrdenDTO.builder().id(2L).usuarioId(101L).total(BigDecimal.valueOf(200.00)).estado(EstadoOrden.PENDIENTE).build()
         );
     }
 
@@ -125,14 +125,14 @@ class OrdenControllerTest {
     void debeCambiarEstado() {
         when(ordenService.cambiarEstado(anyLong(), any(EstadoOrden.class))).thenReturn(ordenDTO);
 
-        ResponseEntity<ApiResponse<OrdenDTO>> response = ordenController.cambiarEstado(1L, EstadoOrden.EN_PROCESO);
+        ResponseEntity<ApiResponse<OrdenDTO>> response = ordenController.cambiarEstado(1L, EstadoOrden.PENDIENTE);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(200, response.getBody().getStatus());
         assertEquals(ordenDTO, response.getBody().getData());
-        verify(ordenService, times(1)).cambiarEstado(1L, EstadoOrden.EN_PROCESO);
+        verify(ordenService, times(1)).cambiarEstado(1L, EstadoOrden.PENDIENTE);
     }
 
     @Test
