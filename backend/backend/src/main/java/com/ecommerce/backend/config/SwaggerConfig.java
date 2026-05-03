@@ -1,8 +1,11 @@
 package com.ecommerce.backend.config;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,12 +29,15 @@ public class SwaggerConfig {
     private String baseUrl;
 
     /**
-     * Configura la información general de la API para Swagger UI.
+     * Configura la información general de la API para Swagger UI,
+     * incluyendo la definición de seguridad JWT.
      *
-     * @return Objeto OpenAPI con metadatos de la API.
+     * @return Objeto OpenAPI con metadatos de la API y configuración de seguridad.
      */
     @Bean
     public OpenAPI customOpenAPI() {
+        final String securitySchemeName = "bearerAuth"; // Nombre del esquema de seguridad
+
         return new OpenAPI()
                 .addServersItem(new Server()
                         .url(baseUrl)
@@ -42,7 +48,17 @@ public class SwaggerConfig {
                         .description("API REST y GraphQL para sistema E-commerce")
                         .contact(new Contact()
                                 .name(contactName)
-                                .email(contactEmail)));
+                                .email(contactEmail)))
+                // Define el esquema de seguridad JWT
+                .components(new Components()
+                        .addSecuritySchemes(securitySchemeName,
+                                new SecurityScheme()
+                                        .name(securitySchemeName)
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .scheme("bearer")
+                                        .bearerFormat("JWT")))
+                // Aplica el esquema de seguridad globalmente a todos los endpoints
+                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName));
     }
 
     /**
